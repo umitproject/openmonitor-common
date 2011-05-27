@@ -15,7 +15,7 @@ message TraceRoute {
 
 message ICMReport {
 	required int64 reportID = 1;
-	required int64 senderID = 2;
+	required int64 agentID = 2;
 	required int32 testID = 3;
 	required int32 timeZone = 4;
 	required int64 timeUTC = 5;
@@ -77,7 +77,7 @@ message RegisterAgentResponse {
 	required string token = 2;
 	required string privateKey = 3;
 	required string publicKey = 4;
-	required int64 senderID = 5;
+	required int64 agentID = 5;
 }
 
 // get_peers_list
