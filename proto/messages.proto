@@ -1,9 +1,9 @@
 package org.umit.icm.proto;
 
 message Trace {
-required int32 hop = 1;
-required string ip = 2;
-repeated int32 packetsTiming = 3; // The timing for each packet sent to that node
+	required int32 hop = 1;
+	required string ip = 2;
+	repeated int32 packetsTiming = 3; // The timing for each packet sent to that node
 }
 
 message TraceRoute {
