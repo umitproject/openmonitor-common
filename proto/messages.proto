@@ -57,12 +57,14 @@ message ServiceReport {
 message RequestHeader {
 	required string token = 1;
 	required int64 agentID = 2;
+	optional string messageType = 3; // To be used in case of p2p communication
 }
 
 // Response Header
 message ResponseHeader {
 	required int32 currentVersionNo = 1;
 	required int32 currentTestVersionNo = 2; // The version of the current set of tests
+	optional string messageType = 3; // To be used in case of p2p communication
 }
 
 // agent_connect/register_peer
