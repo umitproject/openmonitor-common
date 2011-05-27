@@ -111,7 +111,7 @@ message GetSuperPeerListResponse {
 // get_events
 
 message GetEvents {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	repeated string locations = 2; // A list of geo areas that we might be covering with reports.
 	optional int64 geoLat = 3;
 	optional int64 geoLon = 4;
@@ -135,12 +135,12 @@ message GetEventsResponse {
 
 // send_report
 message SendWebsiteReport {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	required WebsiteReport report = 2;
 }
 
 message SendServiceReport {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	required ServiceReport report = 2;
 }
 
@@ -153,7 +153,7 @@ message SendReportResponse {
 // new_version_available
 
 message NewVersion {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	required int32 agentVersionNo = 2;
 	required string agentType = 3; // Right now can be MOBILE or DESKTOP
 }
@@ -167,7 +167,7 @@ message NewVersionResponse {
 // new_tests_available
 
 message NewTests {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	required int32 currentTestVersionNo = 2;
 }
 
@@ -185,7 +185,7 @@ message NewTestsResponse {
 // assign_tasks_to_peer
 
 message AssignTask {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 }
 
 message AssignTaskResponse {
@@ -197,7 +197,7 @@ message AssignTaskResponse {
 // upgrade_peer_to_be_super
 
 message UpgradeToSuper {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 }
 
 message UpgradeToSuperResponse {
@@ -209,7 +209,7 @@ message UpgradeToSuperResponse {
 // send_private_key
 
 message SendPrivateKey {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 	required string symmetricPrivateKey = 2;
 }
 
