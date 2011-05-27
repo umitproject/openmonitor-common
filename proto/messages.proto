@@ -7,48 +7,48 @@ message Trace {
 }
 
 message TraceRoute {
-required string target = 1; // The target may have multiple IP addresses. This field holds the IP of the one used for the trace
-required int32 hops = 2;
-required int32 packetSize = 3;
-repeated Trace traces = 4;
+	required string target = 1; // The target may have multiple IP addresses. This field holds the IP of the one used for the trace
+	required int32 hops = 2;
+	required int32 packetSize = 3;
+	repeated Trace traces = 4;
 }
 
 message ICMReport {
-required int64 reportID = 1;
-required int64 senderID = 2;
-required int32 testID = 3;
-required int32 timeZone = 4;
-required int64 timeUTC = 5;
-repeated bytes passedNode = 6;
-optional TraceRoute traceroute = 7;
+	required int64 reportID = 1;
+	required int64 senderID = 2;
+	required int32 testID = 3;
+	required int32 timeZone = 4;
+	required int64 timeUTC = 5;
+	repeated bytes passedNode = 6;
+	optional TraceRoute traceroute = 7;
 }
 
 message WebsiteReportDetail {
-required string websiteURL = 2;
-required int32 statusCode = 3;
-optional double responseTime = 7;
-optional double bandwidth = 8;
+	required string websiteURL = 2;
+	required int32 statusCode = 3;
+	optional double responseTime = 7;
+	optional double bandwidth = 8;
 }
 
 message WebsiteReport {
-required ICMReport header = 1;
-required WebsiteReportDetail report = 2;
-optional string redirectLink = 6;
-optional string htmlResponse = 4;
-optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
+	required ICMReport header = 1;
+	required WebsiteReportDetail report = 2;
+	optional string redirectLink = 6;
+	optional string htmlResponse = 4;
+	optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message ServiceReportDetail {
 	required string serviceName = 2;
-required int32 statusCode = 3;
-optional double responseTime = 4;
-optional double bandwidth = 5;
+	required int32 statusCode = 3;
+	optional double responseTime = 4;
+	optional double bandwidth = 5;
 
 }
 
 message ServiceReport {
-required ICMReport header = 1;
-required ServiceReportDetail report = 2;
+	required ICMReport header = 1;
+	required ServiceReportDetail report = 2;
 }
 
 // Webservice Response Messages
@@ -69,7 +69,7 @@ message ResponseHeader {
 
 message RegisterAgent {
 	required string ip = 1;
-required int32 versionNo = 2;
+	required int32 versionNo = 2;
 }
 
 message RegisterAgentResponse {
@@ -77,7 +77,7 @@ message RegisterAgentResponse {
 	required string token = 2;
 	required string privateKey = 3;
 	required string publicKey = 4;
-required int64 senderID = 5;
+	required int64 senderID = 5;
 }
 
 // get_peers_list
@@ -89,7 +89,7 @@ message GetPeerList {
 }
 
 message AgentData {
-	required .string token = 1;
+	required string token = 1;
 	required string publicKey = 2;
 	required string peerStatus = 3; // Can be ON, OFF or UNKNOWN
 }
@@ -122,12 +122,12 @@ message GetEvents {
 message Event {
 	required string testType = 1; // Identifier for the type of test taken (WEB or SERVICE for now)
 	required string eventType = 2; // The sort of event: CENSOR, TROTHLING, OFF_LINE
-required int32 timeZone = 3; // Time zone of the originating s region
-required int64 timeUTC = 4; // Actual time
-required int64 sinceTimeUTC = 5; // Time since when this event was first noticed
-	 repeated string locations = 6; // A list of geo areas that we might be covering with reports.
-	 optional WebsiteReportDetail websiteReport = 7;
-	 optional ServiceReportDetail serviceReport = 8;
+	required int32 timeZone = 3; // Time zone of the originating s region
+	required int64 timeUTC = 4; // Actual time
+	required int64 sinceTimeUTC = 5; // Time since when this event was first noticed
+	repeated string locations = 6; // A list of geo areas that we might be covering with reports.
+	optional WebsiteReportDetail websiteReport = 7;
+	optional ServiceReportDetail serviceReport = 8;
 }
 
 message GetEventsResponse {
@@ -163,4 +163,58 @@ message NewVersion {
 message NewVersionResponse {
 	required ResponseHeader header = 1;
 	optional string downloadURL = 2;
-	optional byevent
+	optional bytes update = 3; // The binary update in bzip2 format. Patch should be fine.
+}
+
+// new_tests_available
+
+message NewTests {
+	required RequestHeader = 1;
+	required int32 currentTestVersionNo = 2;
+}
+
+message Test {
+	required int64 testID = 1;
+	optional string websiteURL = 2;
+	optional int32 servideCode = 3;
+}
+
+message NewTestsResponse {
+	required ResponseHeader header = 1;
+	repeated Test tests = 2; // tests will only contain anything if the version of the NewTests message is lower than current version
+}
+
+// assign_tasks_to_peer
+
+message AssignTask {
+	required RequestHeader = 1;
+}
+
+message AssignTaskResponse {
+	required ResponseHeader header = 1;
+	repeated Test tests = 2;
+	optional int64 executeAtTimeUTC = 3;
+}
+
+// upgrade_peer_to_be_super
+
+message UpgradeToSuper {
+	required RequestHeader = 1;
+}
+
+message UpgradeToSuperResponse {
+	required string newToken = 1;
+	required string newPrivateKey = 2;
+	required string newPublicKey = 3;
+}
+
+// send_private_key
+
+message SendPrivateKey {
+	required RequestHeader = 1;
+	required string symmetricPrivateKey = 2;
+}
+
+message SendPrivateKeyResponse {
+	required ResponseHeader header = 1;
+}
