@@ -160,6 +160,7 @@ message NewVersionResponse {
 	required ResponseHeader header = 1;
 	optional string downloadURL = 2;
 	optional bytes update = 3; // The binary update in bzip2 format. Patch should be fine.
+	required int32 versionNo = 4; // The new version number.
 }
 
 // new_tests_available
@@ -178,6 +179,7 @@ message Test {
 message NewTestsResponse {
 	required ResponseHeader header = 1;
 	repeated Test tests = 2; // tests will only contain anything if the version of the NewTests message is lower than current version
+	required int32 testVersionNo = 3; // The new test version number.
 }
 
 // assign_tasks_to_peer
