@@ -24,25 +24,25 @@ message ICMReport {
 }
 
 message WebsiteReportDetail {
-	required string websiteURL = 2;
-	required int32 statusCode = 3;
-	optional double responseTime = 7;
-	optional double bandwidth = 8;
+	required string websiteURL = 1;
+	required int32 statusCode = 2;
+	optional double responseTime = 3;
+	optional double bandwidth = 4;
 }
 
 message WebsiteReport {
 	required ICMReport header = 1;
 	required WebsiteReportDetail report = 2;
-	optional string redirectLink = 6;
+	optional string redirectLink = 3;
 	optional string htmlResponse = 4;
 	optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message ServiceReportDetail {
-	required string serviceName = 2;
-	required int32 statusCode = 3;
-	optional double responseTime = 4;
-	optional double bandwidth = 5;
+	required string serviceName = 1;
+	required int32 statusCode = 2;
+	optional double responseTime = 3;
+	optional double bandwidth = 4;
 
 }
 
