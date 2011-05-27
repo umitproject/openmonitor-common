@@ -146,8 +146,6 @@ message SendServiceReport {
 
 message SendReportResponse {
 	required ResponseHeader header = 1;
-	required bool ackYes = 2;
-	optional string token = 3;
 }
 
 // new_version_available
