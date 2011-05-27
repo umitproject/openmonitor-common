@@ -100,7 +100,7 @@ message GetPeerListResponse {
 // get_super_peers_list
 
 message GetSuperPeerList {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 }
 
 message GetPeerListResponse {
@@ -130,7 +130,7 @@ message Event {
 
 message GetEventsResponse {
 	required ResponseHeader header = 1;
-repeated  Event events = 2;
+	repeated Event events = 2;
 }
 
 // send_report
