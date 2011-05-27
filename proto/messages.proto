@@ -1,0 +1,166 @@
+package org.umit.icm.proto;
+
+message Trace {
+required int32 hop = 1;
+required string ip = 2;
+repeated int32 packetsTiming = 3; // The timing for each packet sent to that node
+}
+
+message TraceRoute {
+required string target = 1; // The target may have multiple IP addresses. This field holds the IP of the one used for the trace
+required int32 hops = 2;
+required int32 packetSize = 3;
+repeated Trace traces = 4;
+}
+
+message ICMReport {
+required int64 reportID = 1;
+required int64 senderID = 2;
+required int32 testID = 3;
+required int32 timeZone = 4;
+required int64 timeUTC = 5;
+repeated bytes passedNode = 6;
+optional TraceRoute traceroute = 7;
+}
+
+message WebsiteReportDetail {
+required string websiteURL = 2;
+required int32 statusCode = 3;
+optional double responseTime = 7;
+optional double bandwidth = 8;
+}
+
+message WebsiteReport {
+required ICMReport header = 1;
+required WebsiteReportDetail report = 2;
+optional string redirectLink = 6;
+optional string htmlResponse = 4;
+optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
+}
+
+message ServiceReportDetail {
+	required string serviceName = 2;
+required int32 statusCode = 3;
+optional double responseTime = 4;
+optional double bandwidth = 5;
+
+}
+
+message ServiceReport {
+required ICMReport header = 1;
+required ServiceReportDetail report = 2;
+}
+
+// Webservice Response Messages
+
+// Request Header
+message RequestHeader {
+	required string token = 1;
+	required int64 agentID = 2;
+}
+
+// Response Header
+message ResponseHeader {
+	required int32 currentVersionNo = 1;
+	required int32 currentTestVersionNo = 2; // The version of the current set of tests
+}
+
+// agent_connect/register_peer
+
+message RegisterAgent {
+	required string ip = 1;
+required int32 versionNo = 2;
+}
+
+message RegisterAgentResponse {
+	required ResponseHeader header = 1;
+	required string token = 2;
+	required string privateKey = 3;
+	required string publicKey = 4;
+required int64 senderID = 5;
+}
+
+// get_peers_list
+
+message GetPeerList {
+	required RequestHeader = 1;
+	required string token = 2;
+	required int64 agentID = 3;
+}
+
+message AgentData {
+	required .string token = 1;
+	required string publicKey = 2;
+	required string peerStatus = 3; // Can be ON, OFF or UNKNOWN
+}
+
+message GetPeerListResponse {
+	required ResponseHeader header = 1;
+	repeated AgentData knownPeers = 2;
+}
+
+// get_super_peers_list
+
+message GetSuperPeerList {
+	required RequestHeader = 1;
+}
+
+message GetPeerListResponse {
+	required ResponseHeader header = 1;
+	repeated AgentData knownSuperPeers = 2;
+}
+
+// get_events
+
+message GetEvents {
+	required RequestHeader = 1;
+	repeated string locations = 2; // A list of geo areas that we might be covering with reports.
+	optional int64 geoLat = 3;
+	optional int64 geoLon = 4;
+}
+
+message Event {
+	required string testType = 1; // Identifier for the type of test taken (WEB or SERVICE for now)
+	required string eventType = 2; // The sort of event: CENSOR, TROTHLING, OFF_LINE
+required int32 timeZone = 3; // Time zone of the originating s region
+required int64 timeUTC = 4; // Actual time
+required int64 sinceTimeUTC = 5; // Time since when this event was first noticed
+	 repeated string locations = 6; // A list of geo areas that we might be covering with reports.
+	 optional WebsiteReportDetail websiteReport = 7;
+	 optional ServiceReportDetail serviceReport = 8;
+}
+
+message GetEventsResponse {
+	required ResponseHeader header = 1;
+repeated  Event events = 2;
+}
+
+// send_report
+message SendWebsiteReport {
+	required RequestHeader = 1;
+	required WebsiteReport report = 2;
+}
+
+message SendServiceReport {
+	required RequestHeader = 1;
+	required ServiceReport report = 2;
+}
+
+message SendReportResponse {
+	required ResponseHeader header = 1;
+	required bool ackYes = 2;
+	optional string token = 3;
+}
+
+// new_version_available
+
+message NewVersion {
+	required RequestHeader = 1;
+	required int32 agentVersionNo = 2;
+	required string agentType = 3; // Right now can be MOBILE or DESKTOP
+}
+
+message NewVersionResponse {
+	required ResponseHeader header = 1;
+	optional string downloadURL = 2;
+	optional byevent
