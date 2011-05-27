@@ -201,9 +201,10 @@ message UpgradeToSuper {
 }
 
 message UpgradeToSuperResponse {
-	required string newToken = 1;
-	required string newPrivateKey = 2;
-	required string newPublicKey = 3;
+	required ResponseHeader header = 1;
+	required string newToken = 2;
+	required string newPrivateKey = 3;
+	required string newPublicKey = 4;
 }
 
 // send_private_key
