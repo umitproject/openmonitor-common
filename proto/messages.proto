@@ -103,7 +103,7 @@ message GetSuperPeerList {
 	required RequestHeader header = 1;
 }
 
-message GetPeerListResponse {
+message GetSuperPeerListResponse {
 	required ResponseHeader header = 1;
 	repeated AgentData knownSuperPeers = 2;
 }
