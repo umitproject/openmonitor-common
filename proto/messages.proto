@@ -84,8 +84,6 @@ message RegisterAgentResponse {
 
 message GetPeerList {
 	required RequestHeader = 1;
-	required string token = 2;
-	required int64 agentID = 3;
 }
 
 message AgentData {
