@@ -102,6 +102,7 @@ message RegisterAgentResponse {
 	required string privateKey = 3;
 	required string publicKey = 4;
 	required int64 agentID = 5;
+	required string cipheredPublicKey = 6;
 }
 
 // get_peers_list
@@ -114,6 +115,8 @@ message AgentData {
 	required string token = 1;
 	required string publicKey = 2;
 	required string peerStatus = 3; // Can be ON, OFF or UNKNOWN
+	required string agentIP = 4;
+	required int32 agentPort = 5;
 }
 
 message GetPeerListResponse {
