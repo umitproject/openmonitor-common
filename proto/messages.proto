@@ -1,4 +1,7 @@
-package org.umit.icm.proto;
+//package org.umit.icm.mobile.common.proto.java;
+//option java_outer_classname = "MessageProtos";
+
+package org.umit.icm.proto.java;
 
 message Trace {
 	required int32 hop = 1;
@@ -85,7 +88,7 @@ message RegisterAgentResponse {
 // get_peers_list
 
 message GetPeerList {
-	required RequestHeader = 1;
+	required RequestHeader header = 1;
 }
 
 message AgentData {
