@@ -1,7 +1,28 @@
-//package org.umit.icm.mobile.common.proto.java;
-//option java_outer_classname = "MessageProtos";
+/**
+ * Copyright (C) 2011 Adriano Monteiro Marques
+ *
+ * Author: ICM Team
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
 
-package org.umit.icm.proto.java;
+package org.umit.icm.mobile.proto;
+option java_outer_classname = "MessageProtos";
+
+//package org.umit.icm.proto.java;
 
 message Trace {
 	required int32 hop = 1;
@@ -60,14 +81,12 @@ message ServiceReport {
 message RequestHeader {
 	required string token = 1;
 	required int64 agentID = 2;
-	optional string messageType = 3; // To be used in case of p2p communication
 }
 
 // Response Header
 message ResponseHeader {
 	required int32 currentVersionNo = 1;
 	required int32 currentTestVersionNo = 2; // The version of the current set of tests
-	optional string messageType = 3; // To be used in case of p2p communication
 }
 
 // agent_connect/register_peer
