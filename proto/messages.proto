@@ -244,3 +244,19 @@ message SendPrivateKey {
 message SendPrivateKeyResponse {
 	required ResponseHeader header = 1;
 }
+
+message WebsiteSuggestion {
+	required RequestHeader header = 1;
+	required string websiteURL = 2;
+	optional string emailAddress = 3;
+}
+
+message ServiceSuggestion {
+	required RequestHeader header = 1;
+	required string serviceName = 2;
+	optional string emailAddress = 3;
+}
+
+message TestSuggestionResponse {
+	required ResponseHeader header = 1;
+}
