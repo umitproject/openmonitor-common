@@ -255,6 +255,8 @@ message ServiceSuggestion {
 	required RequestHeader header = 1;
 	required string serviceName = 2;
 	optional string emailAddress = 3;
+	required string hostName = 4;
+	required string ip = 5;
 }
 
 message TestSuggestionResponse {
