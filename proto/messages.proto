@@ -50,7 +50,7 @@ message ICMReport {
 message WebsiteReportDetail {
 	required string websiteURL = 1;
 	required int32 statusCode = 2;
-	optional int64 responseTime = 3;
+	optional int32 responseTime = 3;
 	optional int32 bandwidth = 4;
 }
 
