@@ -43,7 +43,7 @@ message ICMReport {
 	required int32 testID = 3;
 	required int32 timeZone = 4;
 	required int64 timeUTC = 5;
-	repeated bytes passedNode = 6;
+	repeated string passedNode = 6;
 	optional TraceRoute traceroute = 7;
 }
 
@@ -146,13 +146,12 @@ message GetEvents {
 
 message Event {
 	required string testType = 1; // Identifier for the type of test taken (WEB or SERVICE for now)
-	required string eventType = 2; // The sort of event: CENSOR, TROTHLING, OFF_LINE
-	required int32 timeZone = 3; // Time zone of the originating s region
-	required int64 timeUTC = 4; // Actual time
-	required int64 sinceTimeUTC = 5; // Time since when this event was first noticed
-	repeated string locations = 6; // A list of geo areas that we might be covering with reports.
-	optional WebsiteReportDetail websiteReport = 7;
-	optional ServiceReportDetail serviceReport = 8;
+	required string eventType = 2; // The sort of event: CENSOR, THROTTLING, OFF_LINE
+	required int64 timeUTC = 3; // Actual time
+	required int64 sinceTimeUTC = 4; // Time since when this event was first noticed
+	repeated string locations = 5; // A list of geo areas that we might be covering with reports.
+	optional WebsiteReportDetail websiteReport = 6;
+	optional ServiceReportDetail serviceReport = 7;
 }
 
 message GetEventsResponse {
