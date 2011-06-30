@@ -264,3 +264,13 @@ message ServiceSuggestion {
 message TestSuggestionResponse {
 	required ResponseHeader header = 1;
 }
+
+message AuthenticatePeer {	
+	required int64 agentID = 1;
+	required string cipheredPublicKey = 2;
+	optional int32 agentPort = 3;
+}
+
+message AuthenticatePeerResponse {
+	required string secretKey = 1;
+}
