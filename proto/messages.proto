@@ -19,6 +19,7 @@
  * USA
  */
 
+
 package org.umit.icm.mobile.proto;
 option java_outer_classname = "MessageProtos";
 
