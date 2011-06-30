@@ -104,6 +104,7 @@ message RegisterAgentResponse {
 	required string publicKey = 4;
 	required int64 agentID = 5;
 	required string cipheredPublicKey = 6;
+	required string aggregatorPublicKey = 7;
 }
 
 // get_peers_list
@@ -202,6 +203,7 @@ message Test {
 	optional string websiteURL = 2;
 	optional int32 servideCode = 3;
 	optional int64 executeAtTimeUTC = 4;
+	required string testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
 }
 
 message NewTestsResponse {
