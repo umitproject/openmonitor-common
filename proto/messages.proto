@@ -53,14 +53,14 @@ message WebsiteReportDetail {
 	required int32 statusCode = 2;
 	optional int32 responseTime = 3;
 	optional int32 bandwidth = 4;
+	optional string redirectLink = 5;
+	optional string htmlResponse = 6;
+	optional bytes htmlMedia = 7; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message WebsiteReport {
 	required ICMReport header = 1;
 	required WebsiteReportDetail report = 2;
-	optional string redirectLink = 3;
-	optional string htmlResponse = 4;
-	optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message ServiceReportDetail {
