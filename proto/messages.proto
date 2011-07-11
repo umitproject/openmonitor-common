@@ -201,7 +201,7 @@ message NewTests {
 message Test {
 	required int64 testID = 1;
 	optional string websiteURL = 2;
-	optional int32 servideCode = 3;
+	optional int32 serviceCode = 3;
 	optional int64 executeAtTimeUTC = 4;
 	required string testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
 }
