@@ -39,7 +39,7 @@ message TraceRoute {
 }
 
 message ICMReport {
-	required int64 reportID = 1;
+	required string reportID = 1;
 	required int64 agentID = 2;
 	required int32 testID = 3;
 	required int32 timeZone = 4;
@@ -114,11 +114,12 @@ message GetPeerList {
 }
 
 message AgentData {
-	required string token = 1;
-	required string publicKey = 2;
-	required string peerStatus = 3; // Can be ON, OFF or UNKNOWN
-	required string agentIP = 4;
-	required int32 agentPort = 5;
+	required string agentID = 1;
+	required string agentIP = 2;
+	required int32 agentPort = 3;
+	required string token = 4;
+	required string publicKey = 5;
+	required string peerStatus = 6; // Can be ON, OFF or UNKNOWN
 }
 
 message GetPeerListResponse {
@@ -201,7 +202,7 @@ message NewTests {
 message Test {
 	required int64 testID = 1;
 	optional string websiteURL = 2;
-	optional int32 serviceCode = 3;
+	optional int32 servideCode = 3;
 	optional int64 executeAtTimeUTC = 4;
 	required string testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
 }
@@ -265,12 +266,51 @@ message TestSuggestionResponse {
 	required ResponseHeader header = 1;
 }
 
-message AuthenticatePeer {	
-	required int64 agentID = 1;
-	required string cipheredPublicKey = 2;
-	optional int32 agentPort = 3;
+message AuthenticatePeer {
+	required int32 agentType = 1;	
+	required int64 agentID = 2;	
+	required string cipheredPublicKey = 3;
+	optional int32 agentPort = 4;
 }
 
 message AuthenticatePeerResponse {
 	required string secretKey = 1;
+}
+
+message P2PGetSuperPeerList {
+	required int32 count = 1;
+}
+
+message P2PGetSuperPeerListResponse {
+	repeated AgentData peers = 1;
+}
+
+message P2PGetPeerList {
+	required int32 count = 1;
+}
+
+message P2PGetPeerListResponse {
+	repeated AgentData peers = 1;
+}
+
+message AgentUpdate {
+	required string version = 1;
+	required string downloadURL = 2;
+	optional int32 checkCode = 3;
+}
+
+message AgentUpdateResponse {
+	required string version = 1;
+	required string result = 2;
+}
+
+message TestModuleUpdate {
+	required string version = 1;
+	required string downloadURL = 2;
+	optional int32 checkCode = 3;
+}
+
+message TestModuleUpdateResponse {
+	required string version = 1;
+	required string result = 2;
 }
