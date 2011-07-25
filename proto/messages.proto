@@ -68,7 +68,6 @@ message ServiceReportDetail {
 	required int32 statusCode = 2;
 	optional double responseTime = 3;
 	optional double bandwidth = 4;
-
 }
 
 message ServiceReport {
@@ -114,7 +113,7 @@ message GetPeerList {
 }
 
 message AgentData {
-	required string agentID = 1;
+	required int64 agentID = 1;
 	required string agentIP = 2;
 	required int32 agentPort = 3;
 	required string token = 4;
