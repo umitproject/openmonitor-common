@@ -313,3 +313,12 @@ message TestModuleUpdateResponse {
 	required string version = 1;
 	required string result = 2;
 }
+
+message CheckAggregator {
+    required RequestHeader header = 1;
+}
+
+message CheckAggregatorResponse {
+    required ResponseHeader header = 1;
+    required string status = 2;
+}
