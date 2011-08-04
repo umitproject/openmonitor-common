@@ -92,8 +92,9 @@ message ResponseHeader {
 // agent_connect/register_peer
 
 message RegisterAgent {
-	required string ip = 1;
-	required int32 versionNo = 2;
+	required int32 versionNo = 1;
+	required string agentType = 2; // Right now can be MOBILE or DESKTOP
+	optional string ip = 3;
 }
 
 message RegisterAgentResponse {
@@ -104,6 +105,17 @@ message RegisterAgentResponse {
 	required int64 agentID = 5;
 	required string cipheredPublicKey = 6;
 	required string aggregatorPublicKey = 7;
+}
+
+// login/logout
+
+message Login {
+    required RequestHeader header = 1;
+    optional string ip = 2;
+}
+
+message Logout {
+    required RequestHeader header = 1;
 }
 
 // get_peers_list
