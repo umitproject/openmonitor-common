@@ -25,7 +25,7 @@ UpgradeToSuper = 2023
 UpgradeToSuperResponse = 2024
 SendPrivateKey = 2025
 SendPrivateKeyResponse = 2026
-WebSiteSuggestion = 2027
+WebsiteSuggestion = 2027
 TestSuggestionResponse = 2028
 ServiceSuggestion = 2029
 
