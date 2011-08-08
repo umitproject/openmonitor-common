@@ -153,9 +153,8 @@ message GetSuperPeerListResponse {
 
 message GetEvents {
 	required RequestHeader header = 1;
-	repeated string locations = 2; // A list of geo areas that we might be covering with reports.
-	optional int64 geoLat = 3;
-	optional int64 geoLon = 4;
+	repeated Location locations = 2; // A list of geo areas that we might be covering with reports.
+	optional Location agentLocation = 3;
 }
 
 message Event {
@@ -163,7 +162,7 @@ message Event {
 	required string eventType = 2; // The sort of event: CENSOR, THROTTLING, OFF_LINE
 	required int64 timeUTC = 3; // Actual time
 	required int64 sinceTimeUTC = 4; // Time since when this event was first noticed
-	repeated string locations = 5; // A list of geo areas that we might be covering with reports.
+	repeated Location locations = 5; // A list of geo areas that we might be covering with reports.
 	optional WebsiteReportDetail websiteReport = 6;
 	optional ServiceReportDetail serviceReport = 7;
 }
@@ -333,4 +332,9 @@ message CheckAggregator {
 message CheckAggregatorResponse {
     required ResponseHeader header = 1;
     required string status = 2;
+}
+
+message Location {
+	required double longitude = 1;
+	required double latitude = 2;
 }
