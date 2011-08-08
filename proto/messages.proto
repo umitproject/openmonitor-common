@@ -334,3 +334,12 @@ message CheckAggregatorResponse {
     required ResponseHeader header = 1;
     required string status = 2;
 }
+
+message ForwardingMessage {
+    required int64 destination = 1;  // 0 stands for aggregator, other for agent id
+    required string encodedMessage = 2;
+}
+
+message ForwardingMessageResponse {
+    required string encodedMessage = 1;
+}

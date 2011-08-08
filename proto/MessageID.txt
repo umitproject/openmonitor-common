@@ -36,6 +36,8 @@ AgentUpdate = 4001
 AgentUpdateResponse = 4002
 TestModuleUpdate = 4003
 TestModuleUpdateResponse = 4004
+ForwardingMessage = 4005
+ForwardingMessageResponse = 4006
 
 # Messages between DA and MA
 AuthenticatePeer = 5001
