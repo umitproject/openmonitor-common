@@ -118,6 +118,10 @@ message Logout {
     required RequestHeader header = 1;
 }
 
+message LoginResponse {
+    required ResponseHeader header = 1;
+}
+
 // get_peers_list
 
 message GetPeerList {
