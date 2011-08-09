@@ -345,10 +345,12 @@ message CheckAggregatorResponse {
 
 message ForwardingMessage {
     required int64 destination = 1;  // 0 stands for aggregator, other for agent id
-    required string encodedMessage = 2;
+    required string identifier = 2;  // used to match the response with request
+    required string encodedMessage = 3;  // base64(msg_id_int32|serialized_msg)
 }
 
 message ForwardingMessageResponse {
-    required string encodedMessage = 1;
+    required string identifier = 1;  // same as the field in request message
+    required string encodedMessage = 2;
 }
 

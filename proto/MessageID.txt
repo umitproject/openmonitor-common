@@ -28,6 +28,8 @@ SendPrivateKeyResponse = 2026
 WebsiteSuggestion = 2027
 TestSuggestionResponse = 2028
 ServiceSuggestion = 2029
+WebsiteReport = 2031
+ServiceReport = 2033
 
 # Messages from SA to DA,MA
 
