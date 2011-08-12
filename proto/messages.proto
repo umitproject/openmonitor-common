@@ -107,6 +107,17 @@ message RegisterAgentResponse {
 	required string aggregatorPublicKey = 7;
 }
 
+// check aggregator availability
+
+message CheckAggregator {
+	required RequestHeader header = 1;
+}
+
+message CheckAggregatorResponse {
+	required ResponseHeader header = 1;
+	required string status = 2;
+}
+
 // login/logout
 
 message Login {
@@ -285,72 +296,80 @@ message TestSuggestionResponse {
 	required ResponseHeader header = 1;
 }
 
+// P2P messages
+
+message P2PMessageHeader {
+	required int32 agentType = 1;
+	required int64 agentID = 2;
+}
+
 message AuthenticatePeer {
-	required int32 agentType = 1;	
-	required int64 agentID = 2;	
-	required string cipheredPublicKey = 3;
-	optional int32 agentPort = 4;
+	required P2PMessageHeader header = 1;
+	required string cipheredPublicKey = 2;
+	optional int32 agentPort = 3;
 }
 
 message AuthenticatePeerResponse {
-	required string secretKey = 1;
+	required P2PMessageHeader header = 1;
+	required string secretKey = 2;
 }
 
 message P2PGetSuperPeerList {
-	required int32 count = 1;
+	required P2PMessageHeader header = 1;
+	required int32 count = 2;
 }
 
 message P2PGetSuperPeerListResponse {
-	repeated AgentData peers = 1;
+	required P2PMessageHeader header = 1;
+	repeated AgentData peers = 2;
 }
 
 message P2PGetPeerList {
-	required int32 count = 1;
+	required P2PMessageHeader header = 1;
+	required int32 count = 2;
 }
 
 message P2PGetPeerListResponse {
-	repeated AgentData peers = 1;
+	required P2PMessageHeader header = 1;
+	repeated AgentData peers = 2;
 }
 
 message AgentUpdate {
-	required string version = 1;
-	required string downloadURL = 2;
-	optional int32 checkCode = 3;
+	required P2PMessageHeader header = 1;
+	required string version = 2;
+	required string downloadURL = 3;
+	optional int32 checkCode = 4;
 }
 
 message AgentUpdateResponse {
-	required string version = 1;
-	required string result = 2;
+	required P2PMessageHeader header = 1;
+	required string version = 2;
+	required string result = 3;
 }
 
 message TestModuleUpdate {
-	required string version = 1;
-	required string downloadURL = 2;
-	optional int32 checkCode = 3;
+	required P2PMessageHeader header = 1;
+	required string version = 2;
+	required string downloadURL = 3;
+	optional int32 checkCode = 4;
 }
 
 message TestModuleUpdateResponse {
-	required string version = 1;
-	required string result = 2;
-}
-
-message CheckAggregator {
-    required RequestHeader header = 1;
-}
-
-message CheckAggregatorResponse {
-    required ResponseHeader header = 1;
-    required string status = 2;
+	required P2PMessageHeader header = 1;
+	required string version = 2;
+	required string result = 3;
 }
 
 message ForwardingMessage {
-    required int64 destination = 1;  // 0 stands for aggregator, other for agent id
-    required string identifier = 2;  // used to match the response with request
-    required string encodedMessage = 3;  // base64(msg_id_int32|serialized_msg)
+	required P2PMessageHeader header = 1;
+	required int64 destination = 2;  // 0 stands for aggregator, other for agent id
+	required string identifier = 3;  // used to match the response with request
+	required string encodedMessage = 4;  // base64(msg_id_int32|serialized_msg)
 }
 
 message ForwardingMessageResponse {
-    required string identifier = 1;  // same as the field in request message
-    required string encodedMessage = 2;
+	required P2PMessageHeader header = 1;
+	required string identifier = 2;  // same as the field in request message
+	required string encodedMessage = 3;
 }
 
