@@ -107,6 +107,15 @@ message RegisterAgentResponse {
 	required string aggregatorPublicKey = 7;
 }
 
+message CheckAggregator {
+    required RequestHeader header = 1;
+}
+
+message CheckAggregatorResponse {
+    required ResponseHeader header = 1;
+    required string status = 2;
+}
+
 // login/logout
 
 message Login {
@@ -126,6 +135,7 @@ message LoginResponse {
 
 message GetPeerList {
 	required RequestHeader header = 1;
+	optional int32 count = 2;
 }
 
 message AgentData {
@@ -146,6 +156,7 @@ message GetPeerListResponse {
 
 message GetSuperPeerList {
 	required RequestHeader header = 1;
+	optional int32 count = 2;
 }
 
 message GetSuperPeerListResponse {
@@ -334,23 +345,14 @@ message TestModuleUpdateResponse {
 	required string result = 2;
 }
 
-message CheckAggregator {
-    required RequestHeader header = 1;
-}
-
-message CheckAggregatorResponse {
-    required ResponseHeader header = 1;
-    required string status = 2;
-}
-
 message ForwardingMessage {
-    required int64 destination = 1;  // 0 stands for aggregator, other for agent id
-    required string identifier = 2;  // used to match the response with request
-    required string encodedMessage = 3;  // base64(msg_id_int32|serialized_msg)
+	required int64 destination = 1;  // 0 stands for aggregator, other for agent id
+	required string identifier = 2;  // used to match the response with request
+	required string encodedMessage = 3;  // base64(msg_id_int32|serialized_msg)
 }
 
 message ForwardingMessageResponse {
-    required string identifier = 1;  // same as the field in request message
-    required string encodedMessage = 2;
+	required string identifier = 1;  // same as the field in request message
+	required string encodedMessage = 2;
 }
 
