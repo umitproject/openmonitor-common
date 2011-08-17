@@ -89,7 +89,12 @@ message ResponseHeader {
 	required int32 currentTestVersionNo = 2; // The version of the current set of tests
 }
 
-// agent_connect/register_peer
+// Three step registration with the aggregator:
+// 1. RegisterAgent (No Encryption)
+// 2. GenerateSecretKey (No Encryption)
+// 3. GetTokenAndAsymmetricKeys (Encrypted using AES and the symmetric key generated in step 2)
+
+// Register with the aggregator when the agent launches for the first time
 
 message RegisterAgent {
 	required int32 versionNo = 1;
@@ -99,12 +104,34 @@ message RegisterAgent {
 
 message RegisterAgentResponse {
 	required ResponseHeader header = 1;
+	required int64 agentID = 2;
+}
+
+// Exchange public keys to generate a shared AES symmetric key
+
+message GenerateSecretKey {
+	required int64 agentID = 1;
+	required string publicKey = 2;
+}
+
+message GenerateSecretKeyResponse {
+	required ResponseHeader header = 1;
+	required string publicKey = 2;
+}
+
+// Get Token and Asymmetric keys
+
+message GetTokenAndAsymmetricKeys {
+	required int64 agentID = 1;
+}
+
+message GetTokenAndAsymmetricKeysResponse {
+	required ResponseHeader header = 1;
 	required string token = 2;
 	required string privateKey = 3;
-	required string publicKey = 4;
-	required int64 agentID = 5;
-	required string cipheredPublicKey = 6;
-	required string aggregatorPublicKey = 7;
+	required string publicKey = 4;	
+	required string cipheredPublicKey = 5;
+	required string aggregatorPublicKey = 6;
 }
 
 message CheckAggregator {
@@ -277,17 +304,6 @@ message UpgradeToSuperResponse {
 	required string newPublicKey = 4;
 }
 
-// send_private_key
-
-message SendPrivateKey {
-	required RequestHeader header = 1;
-	required string symmetricPrivateKey = 2;
-}
-
-message SendPrivateKeyResponse {
-	required ResponseHeader header = 1;
-}
-
 message WebsiteSuggestion {
 	required RequestHeader header = 1;
 	required string websiteURL = 2;
@@ -306,6 +322,11 @@ message TestSuggestionResponse {
 	required ResponseHeader header = 1;
 }
 
+
+// Peer Authentication will have 2 steps:
+// 1. AuthenticatePeer
+// 2. GenerateSecretKey
+
 message AuthenticatePeer {
 	required int32 agentType = 1;	
 	required int64 agentID = 2;	
@@ -314,7 +335,7 @@ message AuthenticatePeer {
 }
 
 message AuthenticatePeerResponse {
-	required string secretKey = 1;
+	required string cipheredPublicKey = 1;
 }
 
 message P2PGetSuperPeerList {
