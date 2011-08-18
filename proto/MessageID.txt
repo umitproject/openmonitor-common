@@ -30,6 +30,10 @@ TestSuggestionResponse = 2028
 ServiceSuggestion = 2029
 WebsiteReport = 2031
 ServiceReport = 2033
+GenerateSecretKey = 2035
+GenerateSecretKeyResponse = 2036
+GetTokenAndAsymmetricKeys = 2037
+GetTokenAndAsymmetricKeysResponse = 2038
 
 # Messages from SA to DA,MA
 
