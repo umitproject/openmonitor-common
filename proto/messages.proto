@@ -109,14 +109,19 @@ message RegisterAgentResponse {
 
 // Exchange public keys to generate a shared AES symmetric key
 
+message RSAKey {
+    required string mod = 1;
+    required string exp = 2;
+}
+
 message GenerateSecretKey {
 	required int64 agentID = 1;
-	required string publicKey = 2;
+	required RSAKey publicKey = 2;
 }
 
 message GenerateSecretKeyResponse {
 	required ResponseHeader header = 1;
-	required string publicKey = 2;
+	required RSAKey publicKey = 2;
 }
 
 // Get Token and Asymmetric keys
@@ -128,10 +133,10 @@ message GetTokenAndAsymmetricKeys {
 message GetTokenAndAsymmetricKeysResponse {
 	required ResponseHeader header = 1;
 	required string token = 2;
-	required string privateKey = 3;
-	required string publicKey = 4;	
-	required string cipheredPublicKey = 5;
-	required string aggregatorPublicKey = 6;
+	required RSAKey privateKey = 3;
+	required RSAKey publicKey = 4;
+	required RSAKey cipheredPublicKey = 5;
+	required RSAKey aggregatorPublicKey = 6;
 }
 
 message CheckAggregator {
@@ -170,7 +175,7 @@ message AgentData {
 	required string agentIP = 2;
 	required int32 agentPort = 3;
 	required string token = 4;
-	required string publicKey = 5;
+	required RSAKey publicKey = 5;
 	required string peerStatus = 6; // Can be ON, OFF or UNKNOWN
 }
 
@@ -300,8 +305,8 @@ message UpgradeToSuper {
 message UpgradeToSuperResponse {
 	required ResponseHeader header = 1;
 	required string newToken = 2;
-	required string newPrivateKey = 3;
-	required string newPublicKey = 4;
+	required RSAKey newPrivateKey = 3;
+	required RSAKey newPublicKey = 4;
 }
 
 message WebsiteSuggestion {
@@ -330,12 +335,12 @@ message TestSuggestionResponse {
 message AuthenticatePeer {
 	required int32 agentType = 1;	
 	required int64 agentID = 2;	
-	required string cipheredPublicKey = 3;
+	required RSAKey cipheredPublicKey = 3;
 	optional int32 agentPort = 4;
 }
 
 message AuthenticatePeerResponse {
-	required string cipheredPublicKey = 1;
+	required RSAKey cipheredPublicKey = 1;
 }
 
 message P2PGetSuperPeerList {
