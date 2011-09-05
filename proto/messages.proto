@@ -140,7 +140,7 @@ message GetTokenAndAsymmetricKeysResponse {
 }
 
 message CheckAggregator {
-    required RequestHeader header = 1;
+    required string agentType = 1;
 }
 
 message CheckAggregatorResponse {
