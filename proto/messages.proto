@@ -392,3 +392,7 @@ message ForwardingMessageResponse {
 	required string encodedMessage = 2;
 }
 
+message LoginCredentials {
+	required string username = 1;
+	required string password = 2;
+}
