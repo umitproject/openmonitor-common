@@ -79,8 +79,7 @@ message ServiceReport {
 
 // Request Header
 message RequestHeader {
-	required string token = 1;
-	required int64 agentID = 2;
+	required int64 agentID = 1;
 }
 
 // Response Header
@@ -89,54 +88,28 @@ message ResponseHeader {
 	required int32 currentTestVersionNo = 2; // The version of the current set of tests
 }
 
-// Three step registration with the aggregator:
-// 1. RegisterAgent (No Encryption)
-// 2. GenerateSecretKey (No Encryption)
-// 3. GetTokenAndAsymmetricKeys (Encrypted using AES and the symmetric key generated in step 2)
 
 // Register with the aggregator when the agent launches for the first time
 
+// must be encrypted with aggregator publicKey
 message RegisterAgent {
 	required int32 versionNo = 1;
 	required string agentType = 2; // Right now can be MOBILE or DESKTOP
-	optional string ip = 3;
+	required LoginCredentials credentials = 3;
+	required RSAKey agentPublicKey = 4;
+	optional string ip = 5;
 }
 
+// must be encrypted with agent publicKey
 message RegisterAgentResponse {
 	required ResponseHeader header = 1;
 	required int64 agentID = 2;
+	required RSAKey cipheredPublicKey = 3;
 }
-
-// Exchange public keys to generate a shared AES symmetric key
 
 message RSAKey {
     required string mod = 1;
     required string exp = 2;
-}
-
-message GenerateSecretKey {
-	required int64 agentID = 1;
-	required RSAKey publicKey = 2;
-}
-
-message GenerateSecretKeyResponse {
-	required ResponseHeader header = 1;
-	required RSAKey publicKey = 2;
-}
-
-// Get Token and Asymmetric keys
-
-message GetTokenAndAsymmetricKeys {
-	required int64 agentID = 1;
-}
-
-message GetTokenAndAsymmetricKeysResponse {
-	required ResponseHeader header = 1;
-	required string token = 2;
-	required RSAKey privateKey = 3;
-	required RSAKey publicKey = 4;
-	required RSAKey cipheredPublicKey = 5;
-	required RSAKey aggregatorPublicKey = 6;
 }
 
 message CheckAggregator {
@@ -151,23 +124,35 @@ message CheckAggregatorResponse {
 // login/logout
 
 message Login {
-    required RequestHeader header = 1;
-    optional string ip = 2;
+    required int64 agentID = 1;
+    required string challenge = 2;
+    optional string ip = 3;
 }
 
-message Logout {
-    required RequestHeader header = 1;
+message LoginStep1 {
+    required int64 processID = 1;
+    required string cipheredChallenge = 2;
+    required string challenge = 3;
+}
+
+message LoginStep2 {
+    required int64 processID = 1;
+    required string cipheredChallenge = 2;
 }
 
 message LoginResponse {
     required ResponseHeader header = 1;
+    required string AESKey = 2;
+}
+
+message Logout {
+    required int64 agentID = 1;
 }
 
 // get_peers_list
 
 message GetPeerList {
-	required RequestHeader header = 1;
-	optional int32 count = 2;
+	optional int32 count = 1;
 }
 
 message AgentData {
@@ -187,8 +172,7 @@ message GetPeerListResponse {
 // get_super_peers_list
 
 message GetSuperPeerList {
-	required RequestHeader header = 1;
-	optional int32 count = 2;
+	optional int32 count = 1;
 }
 
 message GetSuperPeerListResponse {
@@ -204,9 +188,8 @@ message Location {
 }
 
 message GetEvents {
-	required RequestHeader header = 1;
-	repeated Location locations = 2; // A list of geo areas that we might be covering with reports.
-	optional Location agentLocation = 3;
+	repeated Location locations = 1; // A list of geo areas that we might be covering with reports.
+	optional Location agentLocation = 2;
 }
 
 message Event {
@@ -226,13 +209,11 @@ message GetEventsResponse {
 
 // send_report
 message SendWebsiteReport {
-	required RequestHeader header = 1;
-	required WebsiteReport report = 2;
+	required WebsiteReport report = 1;
 }
 
 message SendServiceReport {
-	required RequestHeader header = 1;
-	required ServiceReport report = 2;
+	required ServiceReport report = 1;
 }
 
 message SendReportResponse {
@@ -242,9 +223,8 @@ message SendReportResponse {
 // new_version_available
 
 message NewVersion {
-	required RequestHeader header = 1;
-	required int32 agentVersionNo = 2;
-	required string agentType = 3; // Right now can be MOBILE or DESKTOP
+	required int32 agentVersionNo = 1;
+	required string agentType = 2; // Right now can be MOBILE or DESKTOP
 }
 
 message NewVersionResponse {
@@ -257,8 +237,7 @@ message NewVersionResponse {
 // new_tests_available
 
 message NewTests {
-	required RequestHeader header = 1;
-	required int32 currentTestVersionNo = 2;
+	required int32 currentTestVersionNo = 1;
 }
 
 message Website {
@@ -310,17 +289,15 @@ message UpgradeToSuperResponse {
 }
 
 message WebsiteSuggestion {
-	required RequestHeader header = 1;
-	required string websiteURL = 2;
-	optional string emailAddress = 3;
+	required string websiteURL = 1;
+	optional string emailAddress = 2;
 }
 
 message ServiceSuggestion {
-	required RequestHeader header = 1;
-	required string serviceName = 2;
-	optional string emailAddress = 3;
-	required string hostName = 4;
-	required string ip = 5;
+	required string serviceName = 1;
+	optional string emailAddress = 2;
+	required string hostName = 3;
+	required string ip = 4;
 }
 
 message TestSuggestionResponse {
