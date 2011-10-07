@@ -104,7 +104,7 @@ message RegisterAgent {
 message RegisterAgentResponse {
 	required ResponseHeader header = 1;
 	required int64 agentID = 2;
-	required RSAKey cipheredPublicKey = 3;
+	required string publicKeyHash = 3;
 }
 
 message RSAKey {
@@ -126,7 +126,8 @@ message CheckAggregatorResponse {
 message Login {
     required int64 agentID = 1;
     required string challenge = 2;
-    optional string ip = 3;
+    required int64 port = 3;
+    optional string ip = 4;
 }
 
 message LoginStep1 {
@@ -142,7 +143,6 @@ message LoginStep2 {
 
 message LoginResponse {
     required ResponseHeader header = 1;
-    required string AESKey = 2;
 }
 
 message Logout {
