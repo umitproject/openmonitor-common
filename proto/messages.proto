@@ -290,14 +290,12 @@ message UpgradeToSuperResponse {
 
 message WebsiteSuggestion {
 	required string websiteURL = 1;
-	optional string emailAddress = 2;
 }
 
 message ServiceSuggestion {
 	required string serviceName = 1;
-	optional string emailAddress = 2;
-	required string hostName = 3;
-	required string ip = 4;
+	required string hostName = 2;
+	required string ip = 3;
 }
 
 message TestSuggestionResponse {
