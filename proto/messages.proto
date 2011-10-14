@@ -296,6 +296,7 @@ message ServiceSuggestion {
 	required string serviceName = 1;
 	required string hostName = 2;
 	required string ip = 3;
+	required int64 port = 4;
 }
 
 message TestSuggestionResponse {
