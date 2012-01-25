@@ -2,7 +2,7 @@
 
 CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
 PROTO_DIR=$CUR_DIR/../proto
-DESKTOP_DIR=$CUR_DIR/../umit/icm/agent/rpc
+DESKTOP_DIR=$CUR_DIR/../../../umit/icm/agent/rpc
 
 echo "Compiling OpenMonitor protobuf messages for Desktop Agent..."
 protoc -I=$PROTO_DIR --python_out=$DESKTOP_DIR $PROTO_DIR/messages.proto
