@@ -180,13 +180,6 @@ message GetSuperPeerListResponse {
 	repeated AgentData knownSuperPeers = 2;
 }
 
-message CheckAggregator {
-    required RequestHeader header = 1;
-// I have reverted Diogo removal of this property until we manage to clarify
-// this point and adapt the agents. - Adriano
-//    required string agentType = 1;
-}
-
 // get_events
 
 message Location {
