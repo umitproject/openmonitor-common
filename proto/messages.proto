@@ -149,6 +149,10 @@ message Logout {
     required int64 agentID = 1;
 }
 
+message LogoutResponse {
+    required string status = 1;
+}
+
 // get_peers_list
 
 message GetPeerList {
@@ -178,13 +182,6 @@ message GetSuperPeerList {
 message GetSuperPeerListResponse {
 	required ResponseHeader header = 1;
 	repeated AgentData knownSuperPeers = 2;
-}
-
-message CheckAggregator {
-    required RequestHeader header = 1;
-// I have reverted Diogo removal of this property until we manage to clarify
-// this point and adapt the agents. - Adriano
-//    required string agentType = 1;
 }
 
 // get_events
