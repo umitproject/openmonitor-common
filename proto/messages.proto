@@ -19,6 +19,7 @@
  * USA
  */
 
+
 package org.umit.icm.mobile.proto;
 option java_outer_classname = "MessageProtos";
 
@@ -38,12 +39,12 @@ message TraceRoute {
 }
 
 message ICMReport {
-	required int64 reportID = 1;
+	required string reportID = 1;
 	required int64 agentID = 2;
 	required int32 testID = 3;
 	required int32 timeZone = 4;
 	required int64 timeUTC = 5;
-	repeated bytes passedNode = 6;
+	repeated string passedNode = 6;
 	optional TraceRoute traceroute = 7;
 }
 
@@ -52,14 +53,14 @@ message WebsiteReportDetail {
 	required int32 statusCode = 2;
 	optional int32 responseTime = 3;
 	optional int32 bandwidth = 4;
+	optional string redirectLink = 5;
+	optional string htmlResponse = 6;
+	optional bytes htmlMedia = 7; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message WebsiteReport {
 	required ICMReport header = 1;
 	required WebsiteReportDetail report = 2;
-	optional string redirectLink = 3;
-	optional string htmlResponse = 4;
-	optional bytes htmlMedia = 5; // If not in mobile agent, then grab the media files and pack them with gzip and store it in this field.
 }
 
 message ServiceReportDetail {
@@ -67,7 +68,6 @@ message ServiceReportDetail {
 	required int32 statusCode = 2;
 	optional double responseTime = 3;
 	optional double bandwidth = 4;
-
 }
 
 message ServiceReport {
@@ -79,8 +79,7 @@ message ServiceReport {
 
 // Request Header
 message RequestHeader {
-	required string token = 1;
-	required int64 agentID = 2;
+	required int64 agentID = 1;
 }
 
 // Response Header
@@ -89,34 +88,80 @@ message ResponseHeader {
 	required int32 currentTestVersionNo = 2; // The version of the current set of tests
 }
 
-// agent_connect/register_peer
 
+// Register with the aggregator when the agent launches for the first time
+
+// must be encrypted with aggregator publicKey
 message RegisterAgent {
-	required string ip = 1;
-	required int32 versionNo = 2;
+	required int32 versionNo = 1;
+	required string agentType = 2; // Right now can be MOBILE or DESKTOP
+	required LoginCredentials credentials = 3;
+	required RSAKey agentPublicKey = 4;
+	optional string ip = 5;
 }
 
+// must be encrypted with agent publicKey
 message RegisterAgentResponse {
 	required ResponseHeader header = 1;
-	required string token = 2;
-	required string privateKey = 3;
-	required string publicKey = 4;
-	required int64 agentID = 5;
-	required string cipheredPublicKey = 6;
+	required int64 agentID = 2;
+	required string publicKeyHash = 3;
+}
+
+message RSAKey {
+    required string mod = 1;
+    required string exp = 2;
+}
+
+message CheckAggregator {
+    required string agentType = 1;
+}
+
+message CheckAggregatorResponse {
+    required ResponseHeader header = 1;
+    required string status = 2;
+}
+
+// login/logout
+
+message Login {
+    required int64 agentID = 1;
+    required string challenge = 2;
+    required int64 port = 3;
+    optional string ip = 4;
+}
+
+message LoginStep1 {
+    required int64 processID = 1;
+    required string cipheredChallenge = 2;
+    required string challenge = 3;
+}
+
+message LoginStep2 {
+    required int64 processID = 1;
+    required string cipheredChallenge = 2;
+}
+
+message LoginResponse {
+    required ResponseHeader header = 1;
+}
+
+message Logout {
+    required int64 agentID = 1;
 }
 
 // get_peers_list
 
 message GetPeerList {
-	required RequestHeader header = 1;
+	optional int32 count = 1;
 }
 
 message AgentData {
-	required string token = 1;
-	required string publicKey = 2;
-	required string peerStatus = 3; // Can be ON, OFF or UNKNOWN
-	required string agentIP = 4;
-	required int32 agentPort = 5;
+	required int64 agentID = 1;
+	required string agentIP = 2;
+	required int32 agentPort = 3;
+	required string token = 4;
+	required RSAKey publicKey = 5;
+	required string peerStatus = 6; // Can be ON, OFF or UNKNOWN
 }
 
 message GetPeerListResponse {
@@ -127,7 +172,7 @@ message GetPeerListResponse {
 // get_super_peers_list
 
 message GetSuperPeerList {
-	required RequestHeader header = 1;
+	optional int32 count = 1;
 }
 
 message GetSuperPeerListResponse {
@@ -144,22 +189,24 @@ message CheckAggregator {
 
 // get_events
 
+message Location {
+	required double longitude = 1;
+	required double latitude = 2;
+}
+
 message GetEvents {
-	required RequestHeader header = 1;
-	repeated string locations = 2; // A list of geo areas that we might be covering with reports.
-	optional int64 geoLat = 3;
-	optional int64 geoLon = 4;
+	repeated Location locations = 1; // A list of geo areas that we might be covering with reports.
+	optional Location agentLocation = 2;
 }
 
 message Event {
 	required string testType = 1; // Identifier for the type of test taken (WEB or SERVICE for now)
-	required string eventType = 2; // The sort of event: CENSOR, TROTHLING, OFF_LINE
-	required int32 timeZone = 3; // Time zone of the originating s region
-	required int64 timeUTC = 4; // Actual time
-	required int64 sinceTimeUTC = 5; // Time since when this event was first noticed
-	repeated string locations = 6; // A list of geo areas that we might be covering with reports.
-	optional WebsiteReportDetail websiteReport = 7;
-	optional ServiceReportDetail serviceReport = 8;
+	required string eventType = 2; // The sort of event: CENSOR, THROTTLING, OFF_LINE
+	required int64 timeUTC = 3; // Actual time
+	required int64 sinceTimeUTC = 4; // Time since when this event was first noticed
+	repeated Location locations = 5; // A list of geo areas that we might be covering with reports.
+	optional WebsiteReportDetail websiteReport = 6;
+	optional ServiceReportDetail serviceReport = 7;
 }
 
 message GetEventsResponse {
@@ -169,13 +216,11 @@ message GetEventsResponse {
 
 // send_report
 message SendWebsiteReport {
-	required RequestHeader header = 1;
-	required WebsiteReport report = 2;
+	required WebsiteReport report = 1;
 }
 
 message SendServiceReport {
-	required RequestHeader header = 1;
-	required ServiceReport report = 2;
+	required ServiceReport report = 1;
 }
 
 message SendReportResponse {
@@ -185,9 +230,8 @@ message SendReportResponse {
 // new_version_available
 
 message NewVersion {
-	required RequestHeader header = 1;
-	required int32 agentVersionNo = 2;
-	required string agentType = 3; // Right now can be MOBILE or DESKTOP
+	required int32 agentVersionNo = 1;
+	required string agentType = 2; // Right now can be MOBILE or DESKTOP
 }
 
 message NewVersionResponse {
@@ -200,15 +244,25 @@ message NewVersionResponse {
 // new_tests_available
 
 message NewTests {
-	required RequestHeader header = 1;
-	required int32 currentTestVersionNo = 2;
+	required int32 currentTestVersionNo = 1;
+}
+
+message Website {
+	required string url = 1;
+}
+
+message Service {
+	required string name = 1;
+	required int32 port = 2;
+	required string ip = 3;
 }
 
 message Test {
 	required int64 testID = 1;
-	optional string websiteURL = 2;
-	optional int32 servideCode = 3;
+	optional Website website = 2;
+	optional Service service = 3;
 	optional int64 executeAtTimeUTC = 4;
+	required string testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
 }
 
 message NewTestsResponse {
@@ -237,35 +291,91 @@ message UpgradeToSuper {
 message UpgradeToSuperResponse {
 	required ResponseHeader header = 1;
 	required string newToken = 2;
-	required string newPrivateKey = 3;
-	required string newPublicKey = 4;
-}
-
-// send_private_key
-
-message SendPrivateKey {
-	required RequestHeader header = 1;
-	required string symmetricPrivateKey = 2;
-}
-
-message SendPrivateKeyResponse {
-	required ResponseHeader header = 1;
+	required RSAKey newPrivateKey = 3;
+	required RSAKey newPublicKey = 4;
 }
 
 message WebsiteSuggestion {
-	required RequestHeader header = 1;
-	required string websiteURL = 2;
-	optional string emailAddress = 3;
+	required string websiteURL = 1;
 }
 
 message ServiceSuggestion {
-	required RequestHeader header = 1;
-	required string serviceName = 2;
-	optional string emailAddress = 3;
-	required string hostName = 4;
-	required string ip = 5;
+	required string serviceName = 1;
+	required string hostName = 2;
+	required string ip = 3;
+	required int64 port = 4;
 }
 
 message TestSuggestionResponse {
 	required ResponseHeader header = 1;
+}
+
+
+// Peer Authentication will have 2 steps:
+// 1. AuthenticatePeer
+// 2. GenerateSecretKey
+
+message AuthenticatePeer {
+	required int32 agentType = 1;	
+	required int64 agentID = 2;	
+	required RSAKey cipheredPublicKey = 3;
+	optional int32 agentPort = 4;
+}
+
+message AuthenticatePeerResponse {
+	required RSAKey cipheredPublicKey = 1;
+}
+
+message P2PGetSuperPeerList {
+	required int32 count = 1;
+}
+
+message P2PGetSuperPeerListResponse {
+	repeated AgentData peers = 1;
+}
+
+message P2PGetPeerList {
+	required int32 count = 1;
+}
+
+message P2PGetPeerListResponse {
+	repeated AgentData peers = 1;
+}
+
+message AgentUpdate {
+	required string version = 1;
+	required string downloadURL = 2;
+	optional int32 checkCode = 3;
+}
+
+message AgentUpdateResponse {
+	required string version = 1;
+	required string result = 2;
+}
+
+message TestModuleUpdate {
+	required string version = 1;
+	required string downloadURL = 2;
+	optional int32 checkCode = 3;
+}
+
+message TestModuleUpdateResponse {
+	required string version = 1;
+	required string result = 2;
+}
+
+message ForwardingMessage {
+	required int64 destination = 1;  // 0 stands for aggregator, other for agent id
+	required string identifier = 2;  // used to match the response with request
+	required string encodedMessage = 3;  // base64(msg_id_int32|serialized_msg)
+}
+
+message ForwardingMessageResponse {
+	required string identifier = 1;  // same as the field in request message
+	required string encodedMessage = 2;
+}
+
+message LoginCredentials {
+	required string username = 1;
+	required string password = 2;
 }
