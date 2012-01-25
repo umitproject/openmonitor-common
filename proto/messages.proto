@@ -149,6 +149,10 @@ message Logout {
     required int64 agentID = 1;
 }
 
+message LogoutResponse {
+    required string status = 1;
+}
+
 // get_peers_list
 
 message GetPeerList {
