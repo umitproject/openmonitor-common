@@ -114,7 +114,7 @@ message RSAKey {
 
 message CheckAggregator {
     required string agentType = 1;
-}
+}`
 
 message CheckAggregatorResponse {
     required ResponseHeader header = 1;
@@ -321,6 +321,7 @@ message AuthenticatePeer {
 
 message AuthenticatePeerResponse {
 	required RSAKey cipheredPublicKey = 1;
+	required string token = 2;
 }
 
 message P2PGetSuperPeerList {
