@@ -115,7 +115,7 @@ message RSAKey {
 
 message CheckAggregator {
     required string agentType = 1;
-}`
+}
 
 message CheckAggregatorResponse {
     required ResponseHeader header = 1;
