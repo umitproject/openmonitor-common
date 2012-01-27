@@ -66,8 +66,9 @@ message WebsiteReport {
 message ServiceReportDetail {
 	required string serviceName = 1;
 	required int32 statusCode = 2;
-	optional double responseTime = 3;
-	optional double bandwidth = 4;
+	required int32 port = 3;
+	optional double responseTime = 4;
+	optional double bandwidth = 5;
 }
 
 message ServiceReport {
