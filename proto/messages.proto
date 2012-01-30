@@ -378,3 +378,45 @@ message LoginCredentials {
 	required string username = 1;
 	required string password = 2;
 }
+
+message GetNetlist {
+    required int32 list = 1;
+}
+
+message NetworkData {
+    required string network = 1;
+    required int32 class = 2;
+    required int32 nodesCount = 3;
+    repeated AgentData nodes = 4;
+}
+
+message BannedNetworkData {
+    required string network = 1;
+    required int32 class = 2;
+    required int32 flags = 3;
+}
+
+message GetNetlistResponse {
+    required ResponseHeader header = 1;
+    repeated NetworkData networks = 2;
+}
+
+message GetBanlist {
+    required int32 count = 1;
+}
+
+message GetBanlistResponse {
+    required ResponseHeader header = 1;
+    required int32 nodesCount = 2;
+    repeated AgentData nodes = 3;
+}
+
+message GetBannets {
+    required int32 count = 1;
+}
+
+message GetBannetsResponse {
+    required ResponseHeader header = 1;
+    repeated BannedNetworkData networks = 2;
+}
+
