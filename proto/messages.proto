@@ -391,9 +391,10 @@ message NetworkData {
 }
 
 message BannedNetworkData {
-    required string network = 1;
-    required int32 class = 2;
-    required int32 flags = 3;
+    required int32 start_ip = 1;
+    required int32 end_ip = 2;
+    optional int32 nodes_count = 3; // Infringing nodes in the network
+    required int32 flags = 4; // Ban flags
 }
 
 message GetNetlistResponse {
@@ -407,8 +408,8 @@ message GetBanlist {
 
 message GetBanlistResponse {
     required ResponseHeader header = 1;
-    required int32 nodesCount = 2;
-    repeated AgentData nodes = 3;
+    required int32 nodes_count = 2;
+    repeated int32 agent_ids = 3;
 }
 
 message GetBannets {
