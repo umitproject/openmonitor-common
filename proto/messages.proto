@@ -386,7 +386,7 @@ message GetNetlist {
 message NetworkData {
     required int32 start_ip = 1;
     required int32 end_ip = 2;
-    optional int32 nodesCount = 3;
+    optional int32 nodes_count_network = 3;
     repeated AgentData nodes = 4;
 }
 
