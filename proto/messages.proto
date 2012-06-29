@@ -157,7 +157,7 @@ message LogoutResponse {
 // get_peers_list
 
 message GetPeerList {
-	optional string count = 1;
+	optional int32 count = 1;
 }
 
 message AgentData {
