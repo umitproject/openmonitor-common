@@ -260,7 +260,7 @@ message Test {
 	optional Website website = 2;
 	optional Service service = 3;
 	optional int64 executeAtTimeUTC = 4;
-	required string testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
+	required int32 testType = 5; // Identifier for the type of test taken (WEB or SERVICE for now)
 }
 
 message NewTestsResponse {
