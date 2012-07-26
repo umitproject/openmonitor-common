@@ -39,7 +39,7 @@ message TraceRoute {
 }
 
 message ICMReport {
-	required string reportID = 1;
+	required int64 reportID = 1;
 	required string agentID = 2;
 	required string testID = 3;
 	required int32 timeZone = 4;
