@@ -1,0 +1,12 @@
+#!/bin/sh
+#Shell script for quick compiling source messages 
+
+CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
+PROTO_DIR=$CUR_DIR/../proto
+DEST_DIR=$CUR_DIR/../umit/proto
+
+echo "[DEBUG] Compiling protobuf messages for Python..."
+protoc -I=$PROTO_DIR --python_out=$DEST_DIR $PROTO_DIR/messages.proto || { echo '[ERROR] PROTOC FAILED.'; exit 1;}
+#sed -i 's/from google.protobuf/from protobuf/g' $DEST_DIR/messages_pb2.py
+echo "[DEBUG] Compile finished successfully!"
+echo "[DEBUG] New file is at $DEST_DIR/messages_pb2.py"
