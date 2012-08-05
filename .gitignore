@@ -1,0 +1,12 @@
+*.pyc
+icm-agent.wpr
+icm-agent-docs.prj
+dist.bat
+dist
+log
+tmp
+*.tar.gz
+Thumbs.db
+.project
+.pydevproject
+.settings
