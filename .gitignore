@@ -1,4 +1,5 @@
 *.pyc
+*.pyo
 icm-agent.wpr
 icm-agent-docs.prj
 dist.bat
